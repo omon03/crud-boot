@@ -1,6 +1,8 @@
 package com.example.crud.service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,5 +28,14 @@ public class RoleServiceImpl implements RoleService{
     @Override
     public List<Role> listRoles() {
         return roleRepository.findAll();
+    }
+
+    @Override
+    public Set<Role> roleById(Set<Long> roleId) {
+        try {
+            return (Set<Role>) roleRepository.findAllById(roleId);
+        } catch (Exception e) {
+            return Collections.emptySet();
+        }
     }
 }

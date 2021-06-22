@@ -6,7 +6,9 @@
 </head>
 <body>
 <h2>Edit user</h2>
-<form th:method="POST" th:action="@{/admin/user/{id}(id=${user.id})}" th:object="${user}">
+<form th:method="POST"
+      th:action="@{/admin/user/{id}(id=${user.id})}"
+      th:object="${user}">
     <label for="name">Name:</label><br>
     <input type="text" th:field="*{name}" id="name"/><br><br>
     
@@ -21,6 +23,16 @@
     
     <label for="password">Password</label><br>
     <input type="text" th:field="*{password}" id="password"/><br><br>
+    
+    <div class="form-group" th:object="${allroles}">
+        <label class="col-form-label">Select Role</label>
+        <select class="form-control" name="role_id" multiple size="2">
+            <option th:each="role : ${allroles}"
+                    th:value="${role.id}"
+                    th:utext="${role.name}">
+            </option>
+        </select>
+    </div>
     
     <input type="submit" value="Update"/>
 </form><br>
