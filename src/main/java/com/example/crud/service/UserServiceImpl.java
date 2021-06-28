@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,13 +26,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private EntityManager em;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RoleService roleService;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
-                           PasswordEncoder passwordEncoder
+                           PasswordEncoder passwordEncoder,
+                           RoleService roleService
                           ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.roleService = roleService;
     }
 
     /**
@@ -53,9 +55,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User getUserById(Long id) {
+    public User getUser(Long id) {
         Optional<User> userFromDb = userRepository.findById(id);
         return userFromDb.orElse(new User());
+    }
+
+    @Override
+    public User getUser(String email) {
+        return userRepository.getUserByEmail(email);
     }
 
     @Override
@@ -111,7 +118,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.save(user);
     }
 
-    public List<User> usergtList(Long idMin) {
+    @Override
+    public boolean isAdmin(User user) {
+        return user.getRoles().contains(roleService.getRole("ROLE_ADMIN"));
+    }
+
+    public List<User> userList(Long idMin) {
         return em
             .createQuery("SELECT u FROM User u WHERE u.id > :paramId", User.class)
             .setParameter("paramId", idMin).getResultList();

@@ -8,4 +8,5 @@ import com.example.crud.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByUsername(String username);
+    User getUserByEmail(String email);
 }

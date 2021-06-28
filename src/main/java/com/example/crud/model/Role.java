@@ -37,12 +37,10 @@ public class Role implements GrantedAuthority {
     @ToString.Exclude
     private Set<User> user;
 
-
     public Role(Long id, String role) {
         this.id = id;
         this.role = role;
     }
-
 
     @Override
     public boolean equals(Object o) {

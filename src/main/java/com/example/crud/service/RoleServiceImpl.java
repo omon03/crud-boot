@@ -26,16 +26,26 @@ public class RoleServiceImpl implements RoleService{
     }
 
     @Override
-    public List<Role> listRoles() {
+    public List<Role> getRoles() {
         return roleRepository.findAll();
     }
 
     @Override
-    public Set<Role> roleById(Set<Long> roleId) {
+    public Set<Role> getRoles(Set<Long> roleId) {
         try {
             return (Set<Role>) roleRepository.findAllById(roleId);
         } catch (Exception e) {
             return Collections.emptySet();
         }
+    }
+
+    @Override
+    public Role getRole(Long id) {
+        return roleRepository.getRoleById(id);
+    }
+
+    @Override
+    public Role getRole(String role) {
+        return roleRepository.getRoleByRole(role);
     }
 }
