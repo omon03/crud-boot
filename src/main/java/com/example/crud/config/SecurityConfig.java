@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -20,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 //@Configuration
-//@PropertySource("classpath:application.properties")
+@PropertySource("classpath:application.properties")
 //@ComponentScan(basePackages = "com.example.crud")
 @ToString
 //@RequiredArgsConstructor
@@ -31,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final LoginSuccessHandler loginSuccessHandler;
 
+    @Lazy
     public SecurityConfig(LoginSuccessHandler loginSuccessHandler, UserDetailsService userDetailsService) {
         this.loginSuccessHandler = loginSuccessHandler;
         this.userDetailsService = userDetailsService;
